@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pastebin</title>
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            font-family: monospace;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Pastebin</h1>
+    <p>
+        Create a paste by visiting any URL path:
+    </p>
+    <pre>https://example.com/your-paste-name</pre>
+
+    <p>Try one now:</p>
+    <input
+        type="text"
+        placeholder="my-awesome-paste"
+        onkeydown="if(event.key==='Enter'){window.location='/' + this.value}"
+    />
+</body>
+</html>
