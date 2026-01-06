@@ -58,16 +58,23 @@ Base.metadata.create_all(bind=engine)
 def read_paste(request: Request, slug: str):
     if slug in {"static", "favicon.ico"}:
         raise HTTPException(status_code=404)
+    
+    slug_lowercase = slug.lower()
+
+    if slug != slug_lowercase:
+        return RedirectResponse(f"/{slug_lowercase}")
         
+
+
     with SessionLocal() as db:
-        paste = db.get(Paste, slug)
+        paste = db.get(Paste, slug_lowercase)
 
     if paste:
         return templates.TemplateResponse(
             "view.html",
             {
                 "request": request,
-                "slug": slug,
+                "slug": slug_lowercase,
                 "content": paste.content,
             },
         )
@@ -76,7 +83,7 @@ def read_paste(request: Request, slug: str):
         "edit.html",
         {
             "request": request,
-            "slug": slug,
+            "slug": slug_lowercase,
         },
     )
 
