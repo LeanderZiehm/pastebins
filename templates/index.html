@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome Pastebin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fira Code', monospace;
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: #f4f5f7;
+            color: #1a1a1a;
+        }
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #4f46e5;
+        }
+        p.description {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        .new-paste {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+        .new-paste input {
+            width: 300px;
+            padding: 0.75rem 1rem;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: #fff;
+            margin-right: 0.5rem;
+        }
+        .new-paste button {
+            padding: 0.75rem 1.5rem;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            background: #4f46e5;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .new-paste button:hover {
+            background: #3730a3;
+        }
+        .pastes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+        .paste-card {
+            background: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .paste-card:hover {
+            transform: translateY(-3px);
+        }
+        .paste-card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #4f46e5;
+            word-break: break-word;
+        }
+        .paste-meta {
+            font-size: 0.9rem;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+        }
+        .paste-meta span {
+            display: flex;
+            align-items: center;
+        }
+        .star, .views {
+            margin-right: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Awesome Pastebin</h1>
+    <p class="description">
+        Create a paste by visiting any URL path or using the input below!
+    </p>
+
+    <div class="new-paste">
+        <input
+            type="text"
+            id="newSlug"
+            placeholder="my-awesome-paste"
+            onkeydown="if(event.key==='Enter'){window.location='/' + this.value}"
+        />
+        <button onclick="createPaste()">Go</button>
+    </div>
+
+    <h2>Recent Pastes</h2>
+    <div class="pastes-list">
+        {% for paste in pastes %}
+        <div class="paste-card">
+            <h2><a href="/{{ paste.slug }}">/{{ paste.slug }}</a></h2>
+            <div class="paste-meta">
+                <span class="views">👁 {{ paste.views }}</span>
+                <span class="star">⭐ {{ paste.stars }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function createPaste() {
+            const slug = document.getElementById('newSlug').value.trim();
+            if(slug) window.location.href = '/' + slug;
+        }
+    </script>
+</body>
+</html>
